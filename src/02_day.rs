@@ -52,12 +52,11 @@ fn reader (file: &str) -> Result<BufReader<File>, Error> {
 }
 
 fn part1 (strategy: &dyn Fn() -> HashMap<String, i32>) -> Result<i32, Error> {
-    let game_scores = strategy();
-    let mut my_score = 0;
+    let mut my_points = 0;
+    let game_to_points = strategy();
 
-    for line in reader("02_day.txt")?.lines() {
-        let mine = game_scores.get(&line?).unwrap();
-        my_score += mine;
+    for round in reader("02_day.txt")?.lines() {
+        my_points += game_to_points.get(&round?).unwrap();
     }
 
 
