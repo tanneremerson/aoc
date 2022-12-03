@@ -51,21 +51,8 @@ fn reader (file: &str) -> Result<BufReader<File>, Error> {
     Ok(reader)
 }
 
-fn part1 () -> Result<i32, Error> {
-    let game_scores = strategy_1();
-    let mut my_score = 0;
-
-    for line in reader("02_day.txt")?.lines() {
-        let mine = game_scores.get(&line?).unwrap();
-        my_score += mine;
-    }
-
-
-    Ok(my_score)
-}
-
-fn part2 () -> Result<i32, Error> {
-    let game_scores = strategy_2();
+fn part1 (strategy: &dyn Fn() -> HashMap<String, i32>) -> Result<i32, Error> {
+    let game_scores = strategy();
     let mut my_score = 0;
 
     for line in reader("02_day.txt")?.lines() {
@@ -78,7 +65,7 @@ fn part2 () -> Result<i32, Error> {
 }
 
 fn main() -> Result<(), Error> {
-    println!("Part 1 score: {}", part1()?);
-    println!("Part 1 score: {}", part2()?);
+    println!("Part 1 score: {}", part1(&strategy_1)?);
+    println!("Part 1 score: {}", part1(&strategy_2)?);
     Ok(())
 }
